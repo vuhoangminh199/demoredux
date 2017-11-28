@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { View, Image, StyleSheet } from 'react-native';
 import TabNavigator from 'react-native-tab-navigator';
 import Home from './Home/Home';
-import Contact from './Contact/Contact';
 import Cart from './Cart/Cart';
 import Search from './Search/Search';
 import Header from './Header';
@@ -12,8 +11,6 @@ import cartIconS from '../../../media/appIcon/cart.png';
 import cartIcon from '../../../media/appIcon/cart0.png';
 import searchIconS from '../../../media/appIcon/search.png';
 import searchIcon from '../../../media/appIcon/search0.png';
-import contactIconS from '../../../media/appIcon/contact.png';
-import contactIcon from '../../../media/appIcon/contact0.png';
 import global from '../../../components/global';
 import initData from '../../../api/initData';
 import saveCart from '../../../api/saveCart';
@@ -123,16 +120,6 @@ class Shop extends Component {
 
                     >
                         <Search />
-                    </TabNavigator.Item>
-                    <TabNavigator.Item
-                        selected={selectedTab === 'contact'}
-                        title="Contact"
-                        onPress={() => this.setState({ selectedTab: 'contact' })}
-                        renderIcon={() => <Image source={contactIcon} style={iconStyles} />}
-                        renderSelectedIcon={() => <Image source={contactIconS} style={iconStyles} />}
-                        selectedTitleStyle={{ color: '#34B089', fontFamily: 'Avenir' }}
-                    >
-                        <Contact />
                     </TabNavigator.Item>
                 </TabNavigator>
             </View>

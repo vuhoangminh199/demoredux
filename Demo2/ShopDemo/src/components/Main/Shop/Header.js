@@ -40,7 +40,7 @@ class Header extends Component {
                     <TouchableOpacity onPress={this.props.onOpen}>
                         <Image source={icMenu} style={iconStyle} />
                     </TouchableOpacity>
-                    <Text style={titleStyle}>Wearing a Dress</Text>
+                    <Text style={titleStyle}>DA2</Text>
                     <Image source={icLogo} style={iconStyle} />
                 </View>
 

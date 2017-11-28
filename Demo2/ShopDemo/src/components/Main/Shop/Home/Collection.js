@@ -11,7 +11,7 @@ class Collection extends Component {
         return (
             <View style={wrapper}>
                 <View style={{ height: 50, justifyContent: 'center' }}>
-                    <Text style={textStyle}>SPRING COLLECTION</Text>
+                    <Text style={textStyle}>WHAT IS HOT?!</Text>
                 </View>
                 <TouchableOpacity style={{ flex: 4 }}>
                     <Image source={bannerImage} style={imageStyle} />

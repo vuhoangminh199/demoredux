@@ -27,11 +27,6 @@ class Menu extends Component {
         navigator.push({ name: 'AUTHENTICATION' });
     }
 
-    gotoChangeInfo() {
-        const { navigator } = this.props;
-        navigator.push({ name: 'CHANGE_INFO', user: this.state.user });
-    }
-
     gotoOrderHistory() {
         const { navigator } = this.props;
         navigator.push({ name: 'ORDERHISTORY' });
@@ -57,9 +52,6 @@ class Menu extends Component {
                 <View>
                     <TouchableOpacity style={btnSignInStyle} onPress={this.gotoOrderHistory.bind(this)}>
                         <Text style={btnTextSignIn}>Order History</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={btnSignInStyle} onPress={this.gotoChangeInfo.bind(this)}>
-                        <Text style={btnTextSignIn}>Change Info</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={btnSignInStyle} onPress={this.onSignOut.bind(this)}>
                         <Text style={btnTextSignIn}>Sign Out</Text>

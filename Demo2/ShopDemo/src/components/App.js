@@ -6,7 +6,6 @@ import {
 } from 'react-native';
 import NavigationExperimental from 'react-native-deprecated-custom-components';
 import Authentication from './Authentication/Authentication';
-import ChangeInfo from './ChangeInfo/ChangeInfo';
 import Main from './Main/Main';
 import OrderHistory from './OrderHistory/OrderHistory';
 import refreshToken from '../api/refreshToken';
@@ -28,8 +27,6 @@ export default class App extends Component {
                     switch (route.name) {
                         case 'MAIN':
                         return <Main navigator={navigator} />;
-                        case 'CHANGE_INFO':
-                        return <ChangeInfo navigator={navigator} user={route.user} />;
                         case 'AUTHENTICATION':
                         return <Authentication navigator={navigator} />;
                         case 'ORDERHISTORY':

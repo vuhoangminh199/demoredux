@@ -6,7 +6,7 @@ import {
 const back = require('../../../../media/appIcon/back.png');
 const cart = require('../../../../media/appIcon/cartfull.png');
 const url = 'http://localhost/api/images/product/';
-import global from '/Users/vuhoangminh/Desktop/Demo2/ShopDemo/src/components/global.js';
+import global from '../../../global.js';
 
 export default class ProductDetail extends Component {
     goBack() {

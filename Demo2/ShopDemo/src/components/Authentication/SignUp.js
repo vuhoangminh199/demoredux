@@ -26,10 +26,10 @@ export default class extends Component {
         );
     }
 
-    onFail() {
+    onFail(error) {
         Alert.alert(
             'Notice',
-            'Email has been used by other user',
+             error,
             [
                 { text: 'OK', onPress: () => console.log('fail') },
             ],
@@ -39,11 +39,16 @@ export default class extends Component {
 
     registerUser() {
         const { name, email, password } = this.state;
-        register(email, name, password)
+        if (name === '' || email === '' || password === '' || name === null || email === null || password === null ) {
+            return this.onFail('Your Input is required');
+        } else {
+            register(email, name, password)
             .then(res => {
                 if (res === 'THANH_CONG') return this.onSuccess();
-                return this.onFail();
+                return this.onFail('Email has been used by other user');
             });
+        }
+        
     }
 
     render() {

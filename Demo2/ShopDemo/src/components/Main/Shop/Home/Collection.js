@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import { View, Text, Image, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import bannerImage from '../../../../media/temp/banner.jpg';
-
+import Swiper from 'react-native-swiper';
+import banner1 from '../../../../media/banner/banner1.png';
+import banner2 from '../../../../media/banner/banner2.png';
+import banner3 from '../../../../media/banner/banner3.png';
+import banner4 from '../../../../media/banner/banner4.png';
+import banner5 from '../../../../media/banner/banner5.png';
 const { width } = Dimensions.get('window');
 
 class Collection extends Component {
@@ -14,7 +19,24 @@ class Collection extends Component {
                     <Text style={textStyle}>WHAT IS HOT?!</Text>
                 </View>
                 <TouchableOpacity style={{ flex: 4 }}>
-                    <Image source={bannerImage} style={imageStyle} />
+                    {/* <Image source={bannerImage} style={imageStyle} /> */}
+                    <Swiper showsPagination width={imageWidth} height={imageHeight} autoplay = "true">
+                        <TouchableOpacity>
+                            <Image source={banner1} style={imageStyle}/>
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <Image source={banner2} style={imageStyle}/>
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <Image source={banner3} style={imageStyle}/>
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <Image source={banner4} style={imageStyle}/>
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <Image source={banner5} style={imageStyle}/>
+                        </TouchableOpacity>
+                    </Swiper>
                 </TouchableOpacity>
             </View>
         );

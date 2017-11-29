@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TextInput, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Alert, View, TextInput, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import signIn from '../../api/signIn';
 import global from '../global';
 import saveToken from '../../api/saveToken';
@@ -14,15 +14,27 @@ export default class SignIn extends Component {
         };
     }
 
+    onFail(error) {
+        alert(error);
+    }
+
     onSignIn() {
         const { email, password } = this.state;
-        signIn(email, password)
+        if (email === '' || password === '' || email === null || password === null){
+            this.onFail('Email or Password is required')
+        } else {
+            signIn(email, password)
             .then(res => {
-                global.onSignIn(res.user);
-                this.props.goBack();
-                saveToken(res.token);
+                if(res.user === null){
+                    return this.onFail('Email or Password is incorrect');
+                } else {
+                    global.onSignIn(res.user);
+                    this.props.goBack();
+                    saveToken(res.user);
+                }
             })
             .catch(err => console.log(err));
+        } 
     }
 
     render() {
@@ -34,7 +46,8 @@ export default class SignIn extends Component {
                     style={inputStyle}
                     placeholder="Enter Your Email"
                     value={email}
-                    onChangeText={text => this.setState({ email: text })}
+                    autoCapitalize="none"
+                    onChangeText={text => this.setState({ email: text.split("@gmail.com")  })}
                 />
                 <TextInput
                     style={inputStyle}

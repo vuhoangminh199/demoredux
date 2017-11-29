@@ -2,14 +2,12 @@ import React, { Component } from 'react';
 import Drawer from 'react-native-drawer';
 import Menu from './Menu';
 import Shop from './Shop/Shop';
-import checkLogin from '../../api/checkLogin';
 import getToken from '../../api/getToken';
 import global from '../global';
 
 export default class Main extends Component {
     componentDidMount() {
         getToken()
-            .then(token => checkLogin(token))
             .then(res => global.onSignIn(res.user))
             .catch(err => console.log(err));
     }
@@ -19,13 +17,8 @@ export default class Main extends Component {
         navigator.push({ name: 'AUTHENTICATION' });
     }
 
-    gotoChangeInfo() {
-        const { navigator } = this.props;
-        navigator.push({ name: 'CHANGE_INFO' });
-    }
-
     gotoOrderHistory() {
-        const { navigator } = this.props;//dung de k trung ten bien
+        const { navigator } = this.props;
         navigator.push({ name: 'ORDERHISTORY' });
     }
 

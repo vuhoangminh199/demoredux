@@ -17,7 +17,7 @@ export default class Authentication extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
+        this.state = { 
             isSignIn: true
         };
     }
@@ -40,9 +40,9 @@ export default class Authentication extends Component {
     }
 
     render() {
-        const { row1, iconStyle, titleStyle,
+        const { row1, iconStyle, iconStyleLogo,
             container, controlStyle, signInStyle,
-            signUpStyle, inActiveStyle, activeStyle } = styles;
+            signUpStyle, inActiveStyle, activeStyle} = styles;
 
         const { isSignIn } = this.state;
         const mainJSX = isSignIn ? <SignIn goBack={this.goBack.bind(this)} /> : <SignUp goToSignIn={this.goToSignIn.bind(this)} />;
@@ -53,8 +53,7 @@ export default class Authentication extends Component {
                     <TouchableOpacity onPress={this.goBack.bind(this)}>
                         <Image source={icBack} style={iconStyle} />
                     </TouchableOpacity>
-                    <Text style={titleStyle}>DA2</Text>
-                    <Image source={icLogo} style={iconStyle} />
+                    <Image source={icLogo} style={iconStyleLogo} />
                 </View>
                 {mainJSX}
                 <View style={controlStyle}>
@@ -82,10 +81,9 @@ const styles = StyleSheet.create({
         height: 30
     },
 
-    titleStyle: {
-        color: '#FFF',
-        fontFamily: 'Avenir',
-        fontSize: 30
+    iconStyleLogo: { 
+        width: 90 , 
+        height: 25 
     },
 
     container: {

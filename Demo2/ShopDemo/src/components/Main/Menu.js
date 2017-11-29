@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import profileIcon from '../../media/temp/profile.png';
+import profileIcon from '../../media/temp/profile.jpg';
 import global from '../global';
 import saveToken from '../../api/saveToken';
 

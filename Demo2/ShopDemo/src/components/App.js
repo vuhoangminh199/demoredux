@@ -8,7 +8,6 @@ import NavigationExperimental from 'react-native-deprecated-custom-components';
 import Authentication from './Authentication/Authentication';
 import Main from './Main/Main';
 import OrderHistory from './OrderHistory/OrderHistory';
-import refreshToken from '../api/refreshToken';
 
 global.__DEV__ = false;
 
@@ -16,9 +15,7 @@ console.ignoredYellowBox = ['Remote debugger'];
 StatusBar.setHidden(true);
 
 export default class App extends Component {
-    componentDidMount() {
-        setInterval(refreshToken, 30000);
-    }
+
     render() {
         return (
             <NavigationExperimental.Navigator

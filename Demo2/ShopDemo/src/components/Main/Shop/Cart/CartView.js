@@ -40,6 +40,7 @@ class CartView extends Component {
             quantity: e.quantity,
         }));
         await sendOrder(token, arrayDetail);
+        alert('Your Checkout Is Successful!');
     }
 
     render() {

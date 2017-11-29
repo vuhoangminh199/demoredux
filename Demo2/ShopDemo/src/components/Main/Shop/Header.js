@@ -33,21 +33,21 @@ class Header extends Component {
     }
 
     render() {
-        const { wrapper, row1, textInput, iconStyle, titleStyle } = styles;
+        const { wrapper, row1, textInput, iconStyle, titleStyle, iconStyleLogo} = styles;
         return (
             <View style={wrapper}>
                 <View style={row1}>
                     <TouchableOpacity onPress={this.props.onOpen}>
                         <Image source={icMenu} style={iconStyle} />
                     </TouchableOpacity>
-                    <Text style={titleStyle}>DA2</Text>
-                    <Image source={icLogo} style={iconStyle} />
+                    <Image source={icLogo} style={iconStyleLogo} />
                 </View>
 
                 <TextInput
                     style={textInput}
                     placeholder="What do you want to buy?"
                     underlineColorAndroid="transparent"
+                    autoCapitalize="none"
                     value={this.state.txtSearch}
                     onFocus={() => global.gotoSearch()}
                     onChangeText={text => this.setState({ txtSearch: text })}
@@ -60,9 +60,10 @@ class Header extends Component {
 
 const styles = StyleSheet.create({
     wrapper: { height: height / 8, backgroundColor: '#34B089', padding: 10, justifyContent: 'space-around' },
-    row1: { flexDirection: 'row', justifyContent: 'space-between' },
+    row1: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 },
     textInput: { height: height / 25, backgroundColor: 'white', paddingLeft: 10, paddingVertical: 0 },
     iconStyle: { width: 25, height: 25 },
+    iconStyleLogo: { width: 90 , height: 25 },
     titleStyle: { color: '#FFF', fontFamily: 'Avenir', fontSize: 20 },
 });
 

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Alert, View, TextInput, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, TextInput, Text, TouchableOpacity, StyleSheet, alert } from 'react-native';
 import signIn from '../../api/signIn';
 import global from '../global';
 import saveToken from '../../api/saveToken';
+import getToken from '../../api/getToken';
 
 export default class SignIn extends Component {
 
@@ -10,7 +11,7 @@ export default class SignIn extends Component {
         super(props);
         this.state = {
             email: '',
-            password: '', 
+            password: '',
         };
     }
 
@@ -18,36 +19,58 @@ export default class SignIn extends Component {
         alert(error);
     }
 
-    onSignIn() {
+    async onSignIn() {
         const { email, password } = this.state;
-        if (email === '' || password === '' || email === null || password === null){
-            this.onFail('Email or Password is required')
+        if (email === '' || password === '' || email === null || password === null) {
+            this.onFail('Email or Password is required');
         } else {
-            signIn(email, password)
-            .then(res => {
-                if(res.user === null){
-                    return this.onFail('Email or Password is incorrect');
-                } else {
-                    global.onSignIn(res.user);
+            await signIn(email, password)
+                .then(res => {
+                    global.onSignIn(res.user.name);
                     this.props.goBack();
-                    saveToken(res.user);
+                    saveToken(res.user.name);
+                    return;
                 }
-            })
-            .catch(err => console.log(err));
-        } 
+                )
+                .catch(err => console.log(err));
+            await getToken()
+                .then(res => {
+                    if (res === null || res === '') {
+                        alert('Email or Password Is Incorrect!');
+                    }
+                })
+                .catch(err => console.log(err));
+        }
     }
+    // onSignIn() {
+    //     const { email, password } = this.state;
+    //     signIn(email, password)
+    //         .then(res => {
+    //             global.onSignIn(res.user.name);
+    //             this.props.goBack();
+    //             saveToken(res.user.name);
+    //         })
+    //         .catch(err => console.log(err));
+    // }
 
     render() {
         const { inputStyle, bigButton, buttonText } = styles;
         const { email, password } = this.state;
         return (
             <View>
-                <TextInput
+                {/* <TextInput
                     style={inputStyle}
                     placeholder="Enter Your Email"
                     value={email}
                     autoCapitalize="none"
                     onChangeText={text => this.setState({ email: text.split("@gmail.com")  })}
+                /> */}
+                <TextInput
+                    style={inputStyle}
+                    placeholder="Enter Your Email"
+                    value={email}
+                    autoCapitalize="none"
+                    onChangeText={text => this.setState({ email: text })}
                 />
                 <TextInput
                     style={inputStyle}

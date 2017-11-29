@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    View, Text, TouchableOpacity, ScrollView,
+    View, Text, TouchableOpacity, alert,
     Dimensions, StyleSheet, Image,
     ListView,
 } from 'react-native';
@@ -20,8 +20,10 @@ class CartView extends Component {
         global.incrQuantity(id);
     }
 
-    decrQuantity(id) {
-        global.decrQuantity(id);
+    decrQuantity(id, quantity) {
+        if (quantity > 1) {
+            global.decrQuantity(id);
+        }
     }
 
     removeProduct(id) {
@@ -35,12 +37,19 @@ class CartView extends Component {
 
     async onSendOrder() {
         const token = await getToken();
-        const arrayDetail = this.props.cartArray.map(e => ({
-            id: e.product.id,
-            quantity: e.quantity,
-        }));
-        await sendOrder(token, arrayDetail);
-        alert('Your Checkout Is Successful!');
+        if (token === null || token === '') {
+            alert('Login in to Order');
+        } else {
+            const arrayDetail = this.props.cartArray.map(e => ({
+                id: e.product.id,
+                quantity: e.quantity,
+            }));
+            await sendOrder(token, arrayDetail);
+            this.props.cartArray.map(e => {
+                this.removeProduct(e.product.id);
+            });
+            alert('Your Checkout Is Successful!');
+        }
     }
 
     render() {
@@ -76,7 +85,7 @@ class CartView extends Component {
                                             <Text>+</Text>
                                         </TouchableOpacity>
                                         <Text>{e.quantity}</Text>
-                                        <TouchableOpacity onPress={() => this.decrQuantity(e.product.id)}>
+                                        <TouchableOpacity onPress={() => this.decrQuantity(e.product.id, e.quantity)}>
                                             <Text>-</Text>
                                         </TouchableOpacity>
                                     </View>

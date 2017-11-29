@@ -20,21 +20,21 @@ class Collection extends Component {
                 </View>
                 <TouchableOpacity style={{ flex: 4 }}>
                     {/* <Image source={bannerImage} style={imageStyle} /> */}
-                    <Swiper showsPagination width={imageWidth} height={imageHeight} autoplay = "true">
+                    <Swiper showsPagination width={imageWidth} height={imageHeight} autoplay="true">
                         <TouchableOpacity>
-                            <Image source={banner1} style={imageStyle}/>
+                            <Image source={banner1} style={imageStyle} />
                         </TouchableOpacity>
                         <TouchableOpacity>
-                            <Image source={banner2} style={imageStyle}/>
+                            <Image source={banner2} style={imageStyle} />
                         </TouchableOpacity>
                         <TouchableOpacity>
-                            <Image source={banner3} style={imageStyle}/>
+                            <Image source={banner3} style={imageStyle} />
                         </TouchableOpacity>
                         <TouchableOpacity>
-                            <Image source={banner4} style={imageStyle}/>
+                            <Image source={banner4} style={imageStyle} />
                         </TouchableOpacity>
                         <TouchableOpacity>
-                            <Image source={banner5} style={imageStyle}/>
+                            <Image source={banner5} style={imageStyle} />
                         </TouchableOpacity>
                     </Swiper>
                 </TouchableOpacity>

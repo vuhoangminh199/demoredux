@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
     View,
-    Text,
     TouchableOpacity,
     Dimensions,
     Image,
@@ -33,7 +32,7 @@ class Header extends Component {
     }
 
     render() {
-        const { wrapper, row1, textInput, iconStyle, titleStyle, iconStyleLogo} = styles;
+        const { wrapper, row1, textInput, iconStyle, iconStyleLogo } = styles;
         return (
             <View style={wrapper}>
                 <View style={row1}>
@@ -63,7 +62,7 @@ const styles = StyleSheet.create({
     row1: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 },
     textInput: { height: height / 25, backgroundColor: 'white', paddingLeft: 10, paddingVertical: 0 },
     iconStyle: { width: 25, height: 25 },
-    iconStyleLogo: { width: 90 , height: 25 },
+    iconStyleLogo: { width: 90, height: 25 },
     titleStyle: { color: '#FFF', fontFamily: 'Avenir', fontSize: 20 },
 });
 

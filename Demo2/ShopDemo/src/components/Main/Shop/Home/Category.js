@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import { View, Text, Image, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import Swiper from 'react-native-swiper';
-import brand1 from '../../../../media/brands/brand-asus.jpg'
-import brand2 from '../../../../media/brands/brand-dell.jpg'
-import brand3 from '../../../../media/brands/brand-hp.jpg'
-import brand4 from '../../../../media/brands/brand-intel.jpg'
-import brand5 from '../../../../media/brands/brand-kingmax.jpg'
-import brand6 from '../../../../media/brands/brand-lenovo.jpg'
-import brand7 from '../../../../media/brands/brand-logitech.jpg'
-import brand8 from '../../../../media/brands/brand-samsung.jpg'
-import brand9 from '../../../../media/brands/brand-sony.jpg'
+import brand1 from '../../../../media/brands/brand-asus.jpg';
+import brand2 from '../../../../media/brands/brand-dell.jpg';
+import brand3 from '../../../../media/brands/brand-hp.jpg';
+import brand4 from '../../../../media/brands/brand-intel.jpg';
+import brand5 from '../../../../media/brands/brand-kingmax.jpg';
+import brand6 from '../../../../media/brands/brand-lenovo.jpg';
+import brand7 from '../../../../media/brands/brand-logitech.jpg';
+import brand8 from '../../../../media/brands/brand-samsung.jpg';
+import brand9 from '../../../../media/brands/brand-sony.jpg';
+
 const { width } = Dimensions.get('window');
 const url = 'http://localhost/api/images/type/';
 class Category extends Component {
@@ -26,7 +27,7 @@ class Category extends Component {
             <Swiper showsPagination width={imageWidth} height={imageHeight}>
                 {types.map(e => (
                     <TouchableOpacity onPress={() => this.gotoListProduct(e)} key={e.id}>
-                        <Image source={{ uri: `${url}${e.name}` }} style={imageStyle}>
+                        <Image source={{ uri: `${url}${e.image}` }} style={imageStyle}>
                             <Text style={cateTitle}>{e.name}</Text>
                         </Image>
                     </TouchableOpacity>

@@ -8,8 +8,8 @@ import global from '../global';
 export default class Main extends Component {
     componentDidMount() {
         getToken()
-            .then(res => global.onSignIn(res.user))
-            .catch(err => console.log(err));
+            .then(res => global.onSignIn(res))
+            .catch(err => console.log(err));   
     }
 
     gotoAuthentication() {

@@ -48,7 +48,7 @@ class Menu extends Component {
 
         const loginJSX = (
             <View style={loginContainer}>
-                <Text style={textUserName}>{user ? user.name : ''}</Text>
+                <Text style={textUserName}>{user ? user : ''}</Text>
                 <View>
                     <TouchableOpacity style={btnSignInStyle} onPress={this.gotoOrderHistory.bind(this)}>
                         <Text style={btnTextSignIn}>Order History</Text>
@@ -62,6 +62,7 @@ class Menu extends Component {
         );
 
         const mainJSX = this.state.user ? loginJSX : logoutJSX;
+        
         return (
             <View style={container}>
                 <Image source={profileIcon} style={profile} />

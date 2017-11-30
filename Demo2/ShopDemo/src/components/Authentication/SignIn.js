@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TextInput, Text, TouchableOpacity, StyleSheet, alert } from 'react-native';
+import { View, TextInput, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import signIn from '../../api/signIn';
 import global from '../global';
 import saveToken from '../../api/saveToken';
@@ -19,9 +19,10 @@ export default class SignIn extends Component {
         alert(error);
     }
 
+    
     async onSignIn() {
         const { email, password } = this.state;
-        if (email === '' || password === '' || email === null || password === null) {
+        if (email == '' || password === '' || email === null || password === null) {
             this.onFail('Email or Password is required');
         } else {
             await signIn(email, password)

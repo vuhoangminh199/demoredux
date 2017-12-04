@@ -38,6 +38,7 @@ export default class Authentication extends Component {
     goToSignIn() {
         this.setState({ isSignIn: true });
     }
+    
 
     render() {
         const { row1, iconStyle, iconStyleLogo,
@@ -82,7 +83,7 @@ const styles = StyleSheet.create({
     },
 
     iconStyleLogo: { 
-        width: 90 , 
+        width: 90, 
         height: 25 
     },
 

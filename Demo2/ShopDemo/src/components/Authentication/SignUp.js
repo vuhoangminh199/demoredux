@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Alert, View, TextInput, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import register from '../../api/register';
 
-export default class extends Component {
+export default class SignUp extends Component {
     constructor(props) {
         super(props);
         this.state = {

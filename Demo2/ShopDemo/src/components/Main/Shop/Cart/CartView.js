@@ -5,7 +5,6 @@ import {
     ListView,
 } from 'react-native';
 import global from '../../../global';
-import sendOrder from '../../../../api/sendOrder';
 import getToken from '../../../../api/getToken';
 
 const url = 'http://localhost/api/images/product/';
@@ -35,20 +34,17 @@ class CartView extends Component {
         navigator.push({ name: 'PRODUCT_DETAIL', product });
     }
 
-    async onSendOrder() {
+    async gotoOrderCart() {
+        const { navigator } = this.props;
+        const arrayDetail = this.props.cartArray.map(e => ({
+            id: e.product.id,
+            quantity: e.quantity,
+        }));
         const token = await getToken();
         if (token === null || token === '') {
             alert('Login in to Order');
         } else {
-            const arrayDetail = this.props.cartArray.map(e => ({
-                id: e.product.id,
-                quantity: e.quantity,
-            }));
-            await sendOrder(token, arrayDetail);
-            this.props.cartArray.map(e => {
-                this.removeProduct(e.product.id);
-            });
-            alert('Your Checkout Is Successful!');
+            navigator.push({ name: 'ORDERCART', arrayDetail });
         }
     }
 
@@ -97,7 +93,7 @@ class CartView extends Component {
                         </View>
                     )}
                 />
-                <TouchableOpacity style={checkoutButton} onPress={this.onSendOrder.bind(this)}>
+                <TouchableOpacity style={checkoutButton} onPress={this.gotoOrderCart.bind(this)}>
                     <Text style={checkoutTitle}>TOTAL {total}$ CHECKOUT NOW</Text>
                 </TouchableOpacity>
             </View>

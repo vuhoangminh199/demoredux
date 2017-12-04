@@ -19,28 +19,32 @@ export default class SignIn extends Component {
         alert(error);
     }
 
-    
-    async onSignIn() {
+    async sendSignIn() {
         const { email, password } = this.state;
-        if (email == '' || password === '' || email === null || password === null) {
+        await signIn(email, password)
+            .then(res => {
+                global.onSignIn(res.user.name);
+                this.props.goBack();
+                saveToken(res.user.name);
+                return;
+            }
+            )
+            .catch(err => console.log(err));
+        await getToken()
+            .then(res => {
+                if (res === null || res === '') {
+                    alert('Email or Password Is Incorrect!');
+                }
+            })
+            .catch(err => console.log(err));
+    }
+
+     onSignIn() {
+        const { email, password } = this.state;
+        if (email === '' || password === '' || email === null || password === null) {
             this.onFail('Email or Password is required');
         } else {
-            await signIn(email, password)
-                .then(res => {
-                    global.onSignIn(res.user.name);
-                    this.props.goBack();
-                    saveToken(res.user.name);
-                    return;
-                }
-                )
-                .catch(err => console.log(err));
-            await getToken()
-                .then(res => {
-                    if (res === null || res === '') {
-                        alert('Email or Password Is Incorrect!');
-                    }
-                })
-                .catch(err => console.log(err));
+            this.sendSignIn();
         }
     }
     // onSignIn() {

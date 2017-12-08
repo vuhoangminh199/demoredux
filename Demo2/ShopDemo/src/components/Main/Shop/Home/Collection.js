@@ -19,7 +19,6 @@ class Collection extends Component {
                     <Text style={textStyle}>WHAT IS HOT?!</Text>
                 </View>
                 <TouchableOpacity style={{ flex: 4 }}>
-                    {/* <Image source={bannerImage} style={imageStyle} /> */}
                     <Swiper showsPagination width={imageWidth} height={imageHeight} autoplay="true">
                         <TouchableOpacity>
                             <Image source={banner1} style={imageStyle} />

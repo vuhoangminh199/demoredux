@@ -23,9 +23,9 @@ export default class SignIn extends Component {
         const { email, password } = this.state;
         await signIn(email, password)
             .then(res => {
-                global.onSignIn(res.user.name);
+                global.onSignIn(res.name);
                 this.props.goBack();
-                saveToken(res.user.name);
+                saveToken(res.name);
                 return;
             }
             )
@@ -72,7 +72,7 @@ export default class SignIn extends Component {
                 /> */}
                 <TextInput
                     style={inputStyle}
-                    placeholder="Enter Your Email"
+                    placeholder="Enter Your PhoneNumber"
                     value={email}
                     autoCapitalize="none"
                     onChangeText={text => this.setState({ email: text })}

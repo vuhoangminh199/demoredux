@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
     View, Text, TouchableOpacity,
     Dimensions, StyleSheet, Image,
-    ListView,
+    ScrollView,
 } from 'react-native';
 import global from '../../../global';
 import getToken from '../../../../api/getToken';
@@ -14,7 +14,6 @@ function toTitleCase(str) {
 }
 
 class CartView extends Component {
-
     incrQuantity(id) {
         global.incrQuantity(id);
     }
@@ -53,46 +52,45 @@ class CartView extends Component {
             product, mainRight, productController,
             txtName, txtPrice, productImage, numberOfProduct,
             txtShowDetail, showDetailContainer } = styles;
-        const { cartArray } = this.props;
-        const arrayTotal = cartArray.map(e => e.product.price * e.quantity);
+        const cartArray = this.props.cartArray;
+        const arrayTotal = cartArray.map(e => e.price * e.quantity);
         const total = arrayTotal.length ? arrayTotal.reduce((a, b) => a + b) : 0;
         return (
             <View style={wrapper}>
-                <ListView
-                    contentContainerStyle={main}
-                    enableEmptySections
-                    dataSource={new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }).cloneWithRows(cartArray)}
-                    renderRow={e => (
-                        <View style={product}>
-                            <Image source={{ uri: `${url}${e.product.images[0]}` }} style={productImage} />
-                            <View style={[mainRight]}>
-                                <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
-                                    <Text style={txtName}>{toTitleCase(e.product.name)}</Text>
-                                    <TouchableOpacity onPress={() => this.removeProduct(e.product.id)}>
-                                        <Text style={{ fontFamily: 'Avenir', color: '#969696' }}>X</Text>
-                                    </TouchableOpacity>
-                                </View>
-                                <View>
-                                    <Text style={txtPrice}>{e.product.price}$</Text>
-                                </View>
-                                <View style={productController}>
-                                    <View style={numberOfProduct}>
-                                        <TouchableOpacity onPress={() => this.incrQuantity(e.product.id)}>
-                                            <Text>+</Text>
-                                        </TouchableOpacity>
-                                        <Text>{e.quantity}</Text>
-                                        <TouchableOpacity onPress={() => this.decrQuantity(e.product.id, e.quantity)}>
-                                            <Text>-</Text>
+                <ScrollView>
+                    {this.props.cartArray.map(e => {
+                        return (
+                            <View style={product}>
+                                <Image source={{ uri: `${url}${e.image}` }} style={productImage} />
+                                <View style={[mainRight]}>
+                                    <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
+                                        <Text style={txtName}>{toTitleCase(e.name)}</Text>
+                                        <TouchableOpacity onPress={() => this.removeProduct(e.id)}>
+                                            <Text style={{ fontFamily: 'Avenir', color: '#969696' }}>X</Text>
                                         </TouchableOpacity>
                                     </View>
-                                    <TouchableOpacity style={showDetailContainer} onPress={() => this.gotoDetail(e.product)}>
-                                        <Text style={txtShowDetail}>SHOW DETAILS</Text>
-                                    </TouchableOpacity>
+                                    <View>
+                                        <Text style={txtPrice}>{e.price}$</Text>
+                                    </View>
+                                    <View style={productController}>
+                                        <View style={numberOfProduct}>
+                                            <TouchableOpacity onPress={() => this.incrQuantity(e.id)}>
+                                                <Text>+</Text>
+                                            </TouchableOpacity>
+                                            <Text>{e.quantity}</Text>
+                                            <TouchableOpacity onPress={() => this.decrQuantity(e.id, e.quantity)}>
+                                                <Text>-</Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                        <TouchableOpacity style={showDetailContainer} onPress={() => this.gotoDetail(e)}>
+                                            <Text style={txtShowDetail}>SHOW DETAILS</Text>
+                                        </TouchableOpacity>
+                                    </View>
                                 </View>
-                            </View>
-                        </View>
-                    )}
-                />
+                            </View>)
+                    })
+                    }
+                </ScrollView>
                 <TouchableOpacity style={checkoutButton} onPress={this.gotoOrderCart.bind(this)}>
                     <Text style={checkoutTitle}>TOTAL {total}$ CHECKOUT NOW</Text>
                 </TouchableOpacity>

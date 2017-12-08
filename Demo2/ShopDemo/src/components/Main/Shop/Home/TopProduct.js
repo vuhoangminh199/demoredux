@@ -4,14 +4,25 @@ import {
     Text, 
     Image, 
     StyleSheet, 
-    Dimensions, 
+    Dimensions,
+    FlatList,
     TouchableOpacity, 
     ListView } from 'react-native';
 
-const url = 'http://localhost/api/images/product/';
+const url = 'http://192.168.1.100:1996/api/GetProductImage/';
 
 class TopProduct extends Component {
-
+    FlatListItemSeparator = () => {
+        return (
+        <View
+            style={{
+            height: 1,
+            width: "100%",
+            backgroundColor: "rgba(0,0,0,0.2)",
+            }}
+        />
+        );
+    }
     gotoDetail(product) {
         const { navigator } = this.props;
         navigator.push({ name: 'PRODUCTDETAIL', product });
@@ -27,22 +38,20 @@ class TopProduct extends Component {
                 <View style={titleContainer}>
                     <Text style={title}>TOP PRODUCT</Text>
                 </View>
-                <ListView
-                    contentContainerStyle={body}
-                    enableEmptySections
-                    dataSource={new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }).cloneWithRows(topProducts)}
-                    renderRow={product => (
-                        <TouchableOpacity style={productContainer} onPress={() => this.gotoDetail(product)}>
-                            <Image source={{ uri: `${url}${product.images[0]}` }} style={productImage} />
-                            <Text style={productName} >{product.name.toUpperCase()}</Text>
-                            <Text style={productPrice}>{product.price}$</Text>
-                        </TouchableOpacity>
-                    )}
-                    renderSeparator={(sectionId, rowId) => {
-                        if (rowId % 2 === 1) return <View style={{ width, height: 10 }} />;
-                        return null;
-                    }}
-                />
+                <FlatList
+                        keyExtractor={item => item.id}
+                        numColumns={2}
+                        style = {body}
+                        ItemSeparatorComponent = {this.FlatListItemSeparator}
+                        data={topProducts}
+                        renderItem={({item,index}) =>
+                            <TouchableOpacity style={productContainer} onPress={() => this.gotoDetail(item)}>
+                                <Image source={{ uri: `${url}${item.image}` }} style={productImage} />
+                                <Text style={productName} >{item.name.toUpperCase()}</Text>
+                                <Text style={productPrice}>{item.price}$</Text>
+                            </TouchableOpacity>
+                        }
+                    />
             </View>
         );
     }
@@ -84,6 +93,7 @@ const styles = StyleSheet.create({
         shadowColor: '#2E272B',
         shadowOffset: { width: 0, height: 3 },
         shadowOpacity: 0.2,
+        margin: 10,
 
     },
 

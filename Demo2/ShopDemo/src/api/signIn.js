@@ -9,14 +9,13 @@
 //         .then(res => res.json())
 // );
 const signin = (email, password) => (
-    fetch('http://localhost/api/login.php',
+    fetch(`http://192.168.1.106:1996/api/CUSTOMERs/login/${email}/${password}`,
     {   
-        method: 'POST',
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json'
         },
-        body: JSON.stringify({ email, password })
     })
     .then(res => res.json())
 );

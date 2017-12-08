@@ -15,7 +15,7 @@ export default class ProductDetail extends Component {
     }
 
     addThisProductToCart() {
-        const { product } = this.props;
+        const product = this.props.product;
         global.addProductToCart(product);
     }
 
@@ -27,7 +27,7 @@ export default class ProductDetail extends Component {
             textSmoke, textHighlight, textMain, titleContainer,
             descContainer, productImageStyle, descStyle, txtMaterial, txtColor
         } = styles;
-        const { name, id, price, color, material, description, images } = this.props.product;
+        const { id, brand_id, name, alias, image, price, stock, warranty, gift, specification, description } = this.props.product;
         return (
             <View style={wrapper}>
                 <View style={cardStyle}>
@@ -41,25 +41,23 @@ export default class ProductDetail extends Component {
                     </View>
                     <View style={imageContainer}>
                         <ScrollView style={{ flexDirection: 'row', padding: 10, height: swiperHeight }} horizontal >
-                            <Image source={{ uri: `${url}${images[0]}` }} style={productImageStyle} />
-                            <Image source={{ uri: `${url}${images[1]}` }} style={productImageStyle} />
+                            <Image source={{ uri: `${url}${image}` }} style={productImageStyle} />
                         </ScrollView>
                     </View>
                     <View style={footer}>
                         <View style={titleContainer}>
-                            <Text style={textMain}>
-                                <Text style={textBlack}>{name.toUpperCase()}</Text>
-                                <Text style={textHighlight}> / </Text>
+                            <View style={textMain}>
+                                <Text style={textBlack}>{name}</Text>
+                                {/* <Text style={textHighlight}> {} </Text> */}
                                 <Text style={textSmoke}>{price}$</Text>
-                            </Text>
+                            </View>
                         </View>
                         <View style={descContainer}>
-                            <Text style={descStyle}>{description}}</Text>
+                            <Text style={descStyle}>{description}</Text>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingTop: 15 }}>
-                                <Text style={txtMaterial}>Material {material}</Text>
+                                <Text style={txtMaterial}>STOCK: {stock}</Text>
                                 <View style={{ flexDirection: 'row' }} >
-                                    <Text style={txtColor}>Color {color}</Text>
-                                    <View style={{ height: 15, width: 15, backgroundColor: color.toLowerCase(), borderRadius: 15, marginLeft: 10, borderWidth: 1, borderColor: '#C21C70' }} />
+                                    <Text style={txtColor}>GIFT: {gift}</Text>
                                 </View>
                             </View>
                         </View>
@@ -115,8 +113,8 @@ const styles = StyleSheet.create({
         marginHorizontal: 10
     },
     textMain: {
-        paddingLeft: 20,
-        marginVertical: 10
+        flexDirection: 'row',
+        justifyContent:'space-between'
     },
     textBlack: {
         fontFamily: 'Avenir',

@@ -26,7 +26,9 @@ class Header extends Component {
     onSearch() {
         const { txtSearch } = this.state;
         search(txtSearch)
-            .then(arrProduct => global.setArraySearch(arrProduct))
+            .then(arrProduct => {
+                global.setArraySearch(arrProduct)
+            })
             .catch(err => console.log(err));
         this.setState({ txtSearch: '' });
     }

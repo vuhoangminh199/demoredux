@@ -15,6 +15,8 @@ import global from '../../../components/global';
 import initData from '../../../api/initData';
 import saveCart from '../../../api/saveCart';
 import getCart from '../../../api/getCart';
+import getTopProduct from '../../../api/getTopProduct';
+import getBrand from '../../../api/getBrand';
 
 class Shop extends Component {
     constructor(props) {
@@ -33,13 +35,15 @@ class Shop extends Component {
     }
 
     componentDidMount() {
-        initData()
+        getTopProduct()
             .then(resJSON => {
-                const { type, product } = resJSON;
-                this.setState({ types: type, topProducts: product });
+                this.setState({ topProducts: resJSON });
+            });
+        getBrand()
+            .then(resJSON => {
+                this.setState({ types: resJSON });
             });
         getCart().then(cartArray => this.setState({ cartArray }));
-        console.log(this.state.cartArray);
     }
 
     gotoSearch() {
@@ -47,32 +51,39 @@ class Shop extends Component {
     }
 
     addProductToCart(product) {
-        const isExist = this.state.cartArray.some(e => e.product.id === product.id);
+        const isExist = this.state.cartArray.some(e => e.id === product.id);
         if (isExist) return;
-        this.setState({ cartArray: this.state.cartArray.concat({ product, quantity: 1 }) },
+        product.quantity = 1;
+        var tempCartArray = this.state.cartArray;
+        tempCartArray.push(product)
+        this.setState({ cartArray: tempCartArray },
             () => saveCart(this.state.cartArray));
     }
 
     incrQuantity(productId) {
-        const newCart = this.state.cartArray.map(e => {
-            if (e.product.id !== productId) return e;
-            return { product: e.product, quantity: e.quantity + 1 };
-        });
-        this.setState({ cartArray: newCart },
+        const tempArray = this.state.cartArray;
+        tempArray.map((e,i)=>{
+            if (e.id == productId) {
+                e.quantity = e.quantity+1;            
+            }
+        })
+        this.setState({ cartArray: tempArray },
             () => saveCart(this.state.cartArray));
     }
 
     decrQuantity(productId) {
-        const newCart = this.state.cartArray.map(e => {
-            if (e.product.id !== productId) return e;
-            return { product: e.product, quantity: e.quantity - 1 };
-        });
-        this.setState({ cartArray: newCart },
+        const tempArray = this.state.cartArray;
+        tempArray.map((e,i)=>{
+            if (e.id == productId) {
+                e.quantity = e.quantity - 1;            
+            }
+        })
+        this.setState({ cartArray: tempArray },
             () => saveCart(this.state.cartArray));
     }
 
     removeProduct(productId) {
-        const newCart = this.state.cartArray.filter(e => e.product.id !== productId);
+        const newCart = this.state.cartArray.filter(e => e.id !== productId);
         this.setState({ cartArray: newCart },
             () => saveCart(this.state.cartArray));
     }

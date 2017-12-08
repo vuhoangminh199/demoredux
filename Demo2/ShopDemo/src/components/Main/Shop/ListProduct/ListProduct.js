@@ -4,15 +4,15 @@ import {
     Text,
     TouchableOpacity,
     StyleSheet,
-    ListView,
+    FlatList,
     Image,
-    RefreshControl
+    Dimensions
 } from 'react-native';
 import icBackList from '../../../../media/appIcon/backList.png';
-import getListProduct from '../../../../api/getListProduct';
+import getProductOfType from '../../../../api/getProductOfType';
 
 const url = 'http://localhost/api/images/product/';
-
+const {width,height} = Dimensions.get('window');
 function toTitleCase(str) {
     return str.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
 }
@@ -20,23 +20,19 @@ function toTitleCase(str) {
 class ListProduct extends Component {
     constructor(props) {
         super(props);
-        const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-        this.state = {
-            listProduct: ds,
-            refreshing: false,
-            page: 1,
-        };
+
         this.arr = [];
     }
 
     componentDidMount() {
         const idType = this.props.category.id;
-        getListProduct(idType, 1)
+        getProductOfType(idType)
             .then(arrProduct => {
-                this.arr = arrProduct;
-                this.setState({ listProduct: this.state.listProduct.cloneWithRows(this.arr) });
+                this.arr = JSON.parse(arrProduct);
+                this.setState({arr: JSON.parse(arrProduct)});
             })
             .catch(err => console.log(err));
+
     }
 
     goBack() {
@@ -54,7 +50,8 @@ class ListProduct extends Component {
             backStyle, titleStyle, productContainer,
             productImage, productInfo, lastRowInfo,
             txtName, txtPrice, txtMaterial,
-            txtColor, txtShowDetail, viewMaterial } = styles;
+            txtColor, txtShowDetail, viewMaterial,
+            flatliststyle } = styles;
         const { category } = this.props;
         return (
             <View style={container}>
@@ -67,52 +64,27 @@ class ListProduct extends Component {
                         <Text style={titleStyle}>{category.name}</Text>
                         <View style={{ width: 30 }} />
                     </View>
-                    <ListView
-                        removeClippedSubviews={false}
-                        dataSource={this.state.listProduct}
-                        renderRow={product => (
-                            <View style={productContainer}>
-                                <Image source={{ uri: `${url}${product.images[0]}` }} style={productImage} />
+                    <FlatList
+                        style = {flatliststyle}
+                        keyExtractor={item => item.id}
+                        ItemSeparatorComponent={this.FlatListItemSeparator}
+                        data={this.arr}
+                        renderItem={({ item, index }) =>
+                        <View style={productContainer}>
+                                <Image source={{ uri: `${url}${item.images}` }} style={productImage} />
                                 <View style={productInfo}>
-                                    <Text style={txtName}>{toTitleCase(product.name)}</Text>
-                                    <Text style={txtPrice}>{product.price}$</Text>
-                                    <Text style={txtMaterial}>Material {product.material}</Text>
+                                    <Text style={txtName}>{toTitleCase(item.name)}</Text>
+                                    <Text style={txtPrice}>{item.price}$</Text>
+                                    <Text style={txtMaterial}>Stock: {item.stock}</Text>
                                     <View style={lastRowInfo}>
-                                        <Text style={txtColor}>Color {product.color}</Text>
-                                        <View
-                                            style={{
-                                                backgroundColor: product.color.toLowerCase(),
-                                                height: 16,
-                                                width: 16,
-                                                borderRadius: 8
-                                            }}
-                                        />
+                                        <Text style={txtColor}>Gift {item.gift}</Text>
                                         <View />
-                                        <TouchableOpacity onPress={() => this.goToDetail(product)}>
+                                        <TouchableOpacity onPress={() => this.goToDetail(item)}>
                                             <Text style={txtShowDetail}>SHOW DETAILS</Text>
                                         </TouchableOpacity>
                                     </View>
                                 </View>
                             </View>
-                        )}
-                        refreshControl={
-                            <RefreshControl
-                                refreshing={this.state.refreshing}
-                                onRefresh={() => {
-                                    this.setState({ refreshing: true });
-                                    const newPage = this.state.page + 1;
-                                    const idType = this.props.category.id;
-                                    getListProduct(idType, newPage)
-                                        .then(arrProduct => {
-                                            this.arr = arrProduct.concat(this.arr);
-                                            this.setState({
-                                                ...this.state,
-                                                listProduct: this.state.listProduct.cloneWithRows(this.arr),
-                                                refreshing: false,
-                                            });
-                                        });
-                                }}
-                            />
                         }
                     />
                 </View>
@@ -124,7 +96,7 @@ class ListProduct extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#DBDBD8',
+        backgroundColor: '#DBDBD8'
     },
 
     header: {
@@ -133,6 +105,10 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         padding: 5
+    },
+
+    flatliststyle: {
+        width:width-40,height:height-180,paddingRight:10,
     },
 
     wrapper: {

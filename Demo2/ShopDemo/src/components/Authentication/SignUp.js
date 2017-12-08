@@ -9,7 +9,7 @@ export default class SignUp extends Component {
             name: '',
             email: '',
             password: '',
-            rePassword: '',
+            tel: '',
         };
     }
 
@@ -29,7 +29,7 @@ export default class SignUp extends Component {
     onFail(error) {
         Alert.alert(
             'Notice',
-             error,
+            error,
             [
                 { text: 'OK', onPress: () => console.log('fail') },
             ],
@@ -38,17 +38,17 @@ export default class SignUp extends Component {
     }
 
     registerUser() {
-        const { name, email, password } = this.state;
-        if (name === '' || email === '' || password === '' || name === null || email === null || password === null ) {
+        const { name, email, password, tel } = this.state;
+        if (name === '' || email === '' || password === '' || tel === '' || name === null || email === null || password === null || tel === null) {
             return this.onFail('Your Input is required');
         } else {
-            register(email, name, password)
-            .then(res => {
-                if (res === 'THANH_CONG') return this.onSuccess();
-                return this.onFail('Email has been used by other user');
-            });
+            register(email, name, password, tel)
+                .then(res => {
+                    if (res.name !== '' || res.name !== null) return this.onSuccess();
+                    return this.onFail('Email has been used by other user');
+                });
         }
-        
+
     }
 
     render() {
@@ -76,9 +76,9 @@ export default class SignUp extends Component {
                 />
                 <TextInput
                     style={inputStyle}
-                    placeholder="Re-enter Your password"
-                    value={this.state.rePassword}
-                    onChangeText={text => this.setState({ rePassword: text })}
+                    placeholder="Enter Your PhoneNumber"
+                    value={this.state.tel}
+                    onChangeText={text => this.setState({ tel: text })}
                     secureTextEntry
                 />
                 <TouchableOpacity style={bigButton} onPress={this.registerUser.bind(this)}>

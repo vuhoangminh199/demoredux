@@ -6,7 +6,8 @@ import {
     ListView,
     View,
     Image,
-    Dimensions
+    Dimensions,
+    ScrollView,
 } from 'react-native';
 import global from '../../../global';
 
@@ -17,18 +18,19 @@ function toTitleCase(str) {
 }
 
 class SearchView extends Component {
+    setSearchArray(arrProduct) {
+        this.setState({ data: arrProduct });
+    }
+
     constructor(props) {
         super(props);
-        const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
         this.state = {
-            listProduct: ds,
-        };
+            data:[]
+        }
         global.setArraySearch = this.setSearchArray.bind(this);
     }
 
-    setSearchArray(arrProduct) {
-        this.setState({ listProduct: this.state.listProduct.cloneWithRows(arrProduct) });
-    }
+   
 
     gotoDetail(product) {
         const { navigator } = this.props;
@@ -42,7 +44,7 @@ class SearchView extends Component {
         } = styles;
         return (
             <View style={wrapper}>
-                <ListView
+                {/* <ListView
                     enableEmptySections
                     dataSource={this.state.listProduct}
                     renderRow={productItem => (
@@ -70,7 +72,27 @@ class SearchView extends Component {
                             </View>
                         </View>
                     )}
-                />
+                /> */}
+                <ScrollView>
+                    {this.state?this.state.data.map(e => {
+                        return (
+                            <View style={product}>
+                                <Image source={{ uri: `${url}${e.image}` }} style={productImage} />
+                                <View style={mainRight}>
+                                    <Text style={txtName}>{toTitleCase(e.name)}</Text>
+                                    <Text style={txtPrice}>{e.price}$</Text>
+                                    <Text style={txtMaterial}>STOCK: {e.stock}</Text>
+                                    <View style={{ flexDirection: 'row' }} >
+                                        <Text style={txtColor}>GIFT: {e.gift}</Text>
+                                    </View>
+                                    <TouchableOpacity style={showDetailContainer} onPress={() => this.gotoDetail(e)}>
+                                        <Text style={txtShowDetail}>SHOW DETAILS</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>)
+                    }):null
+                    }
+                </ScrollView>
             </View>
         );
     }
@@ -152,7 +174,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         position: 'absolute',
         alignSelf: 'flex-end',
-        marginTop: 100
+        marginTop: 100,
     }
 });
 
